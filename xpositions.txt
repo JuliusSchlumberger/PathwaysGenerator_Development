@@ -1,0 +1,10 @@
+current 0
+SeaWall[0] 2
+SeaWall[1] 3
+SeaWall[2] 4
+Pump[0] 3
+Pump[1] 1
+Pump[2] 2
+SaltMarshes[0] 2
+SaltMarshes[1] 1
+Dike[0] 2
