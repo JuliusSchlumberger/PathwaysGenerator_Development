@@ -109,7 +109,7 @@ class PathwaysInputGenerator:
             return plus_count - minus_count
         return effectiveness_value
 
-    def create_xpositions_file(self, end_current_system, output_file='xpositions.txt'):
+    def create_xpositions_file(self, end_current_system, output_file):
         """
         Creates the xpositions.txt file from the input dictionary.
 
@@ -133,7 +133,7 @@ class PathwaysInputGenerator:
 
         print(f"File '{output_file}' created successfully.")
 
-    def create_sequences_file(self, output_file='sequences.txt'):
+    def create_sequences_file(self, output_file):
         """
         Creates the sequences.txt file from the input dictionary and filtered sequences.
 
@@ -170,8 +170,7 @@ class PathwaysInputGenerator:
 
         print(f"File '{output_file}' created successfully.")
 
-    def generate_input_files(self, end_current_system=0):
-
+    def generate_input_files(self, sequence_file='sequences.txt', xposition_file='xpositions.txt', end_current_system=0):
         self.generate_instance_dict()
-        self.create_xpositions_file(end_current_system)
-        self.create_sequences_file()
+        self.create_xpositions_file(end_current_system, xposition_file)
+        self.create_sequences_file(sequence_file)

@@ -12,13 +12,7 @@ from adaptation_pathways.graph import (
 from adaptation_pathways.plot import init_axes
 from adaptation_pathways.plot import plot_classic_pathway_map as plot
 
-
-from Code_for_GenerationEvaluation.SequenceGenerator import SequenceGenerator
-from Code_for_GenerationEvaluation.SequenceEvaluator import SequenceEvaluator
-from Code_for_GenerationEvaluation.SequenceFilter import SequenceFilter
-from Code_for_GenerationEvaluation.PathwaysInputGenerator import PathwaysInputGenerator
-
-evaluation_criteria = ['Costs', 'Co-Benefits'] # in Interface: adding a checkbox for each column added to specify whether evaluation criteria or performance?
+from Code_for_GenerationEvaluation.generate_input_files import generate_input_files
 
 action_characterization = {
     'Sea Wall': {
@@ -50,15 +44,6 @@ action_characterization = {
     },
 }
 
-
-
-# Create the generator object
-generator = SequenceGenerator(action_characterization, N=100, m=3)
-
-# Generate and filter sequences
-filtered_sequences = generator.generate_filtered_sequences()
-print(filtered_sequences)
-
 evaluation_keys = ['effectiveness', 'Costs', 'Co-Benefits']
 
 filtering_conditions = {
@@ -67,32 +52,12 @@ filtering_conditions = {
     'Co-Benefits': ('between', ['----', '++'])
 }
 
-# Create the evaluator object
-evaluator = SequenceEvaluator(filtered_sequences, action_characterization, evaluation_keys)
+identifier = 'test'
 
-# Evaluate all sequences
-performance = evaluator.evaluate_all_sequences()
-
-# Print the results
-print('performance', performance)
-
-# Create the filter object
-sequence_filter = SequenceFilter(performance, filtering_conditions)
-
-# Filter sequences
-filtered_sequences = sequence_filter.filter_sequences()
-
-# Print the results
-print('filtered pathways',filtered_sequences)
-
-# Create the input generator object
-generator = PathwaysInputGenerator(filtered_sequences, action_characterization)
-
-# Generate input files
-input_files = generator.generate_input_files()
-
-# Print the results
-print(input_files)
+generate_input_files(action_characterization, evaluation_keys, filtering_conditions,
+                     f'data/pathways_generator/sequences_{identifier}.txt',
+                     f'data/pathways_generator/xpositions_{identifier}.txt',
+                     0,1000,3 )
 
 pg_sequences = read_sequences('sequences.txt')
 sequence_graph = sequences_to_sequence_graph(pg_sequences)
@@ -107,4 +72,5 @@ pathway_map.set_attribute("level", level_by_action)
 _, axes = plt.subplots(layout="constrained")
 init_axes(axes)
 plot(axes, pathway_map)
+plt.savefig('pathways_map.png', dpi=300)
 plt.show()
